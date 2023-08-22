@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, CircularProgress, FormControl, MenuItem, Pagination, Select, Snackbar, TextField } from '@mui/material';
+import { CircularProgress, FormControl, MenuItem, Pagination, Select, Snackbar, TextField } from '@mui/material';
 import { useDebounce } from "use-lodash-debounce";
 import PollElement from './pollElement';
 

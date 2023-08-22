@@ -19,25 +19,29 @@ const style = {
   
   };
 
-export function PollDetailsModal({poll, opened}) {
+export function PollDetails({poll, setRenderedComponent, setOpen, setVote}) {
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
-  const [open, setOpen] = useState(opened);
+  const [radioValue, setRadioValue] = useState('');
+  const [voterEmail, setVoterEmail] = useState('');
   const handleClose= () => setOpen(false);
-  useEffect(() => {
-  }, [open]);
+  
+  
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     try {
-        const post = await axios.put(`http://127.0.0.1:8000/voter/create-vote/`);
-        handleClose();
+        const response = await axios.post(`http://127.0.0.1:8000/voter/create-vote/`, 
+        {voter: voterEmail, poll: poll.id, choice:radioValue.id});
+        setVote(response.data)
+        console.log('Done')
+        setRenderedComponent('otp')
       }
       catch (error) {
         if (error.response.status === 400){
           let error_msg = '';
-          for (let key in error.response.data) {
-            if (error.response.data.hasOwnProperty(key)) {
+          for (let key in error?.response?.data) {
+            if (error?.response?.data?.hasOwnProperty(key)) {
               error_msg += key + ":";
               error_msg += error.response.data[key][0]
             }
@@ -51,45 +55,44 @@ export function PollDetailsModal({poll, opened}) {
     setLoading(false)
   }
   return (
-    <div>
-      <Modal
-        open={opened}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Card sx={{ maxWidth: 500, margin: '0 auto', marginTop: 5 }}>
+    <Card sx={{ maxWidth: 500, margin: '0 auto', marginTop: 5 }}>
         <CardContent>
-          <Typography variant="h6" component="div" sx={{marginBottom:"0.3rem" }}>
+            <Typography variant="h6" component="div" sx={{marginBottom:"0.3rem" }}>
             {poll.title}
-          </Typography>
+            </Typography>
             
-          <div style={{ textAlign: 'center', marginBottom: 5}}>
+            <div style={{ textAlign: 'center', marginBottom: 5}}>
             <Typography variant="body3" color="text.secondary">
-              Expiry Date: {poll.expiry_date}
+                Expiry Date: {poll.expiry_date}
             </Typography>
             <Typography variant="body2" color="text.secondary" >
             Status: {poll.is_expired ? 'Expired' : 'Active'}
             </Typography>
-          </div>
-          <TextField size = "small"  id="voter" label="Email" variant="outlined" sx={{width:"100%", margin:"8px 0"}}/>
-          <RadioGroup>
-          {poll.choices.map((choice) => (
-            <FormControlLabel
-              key={choice.id}
-              value={choice.choice_text}
-              label={choice.choice_text}
-              control={<Radio disabled={poll.is_expired} />}
+            </div>
+            <form onSubmit={(e)=>handleSubmit(e)} >    
+        
+            <TextField size = "small"  id="voter" label="Email" variant="outlined" sx={{width:"100%", margin:"8px 0"}}
+            value={voterEmail} onChange={(e)=>{
+              setVoterEmail(e.target.value)
+            }}
             />
-          ))}
+            <RadioGroup>
+            {poll.choices.map((choice) => (
+            <FormControlLabel
+                key={choice.id}
+                value={choice.choice_text}
+                label={choice.choice_text}
+                control={<Radio disabled={poll.is_expired} checked = {radioValue === choice} onChange={() => {setRadioValue(choice)}}/>}
+            />
+            ))}
         </RadioGroup>
         <Button variant="contained" type = 'submit' sx={{marginRight:"1rem"}} disabled={loading}>
         {loading ? <CircularProgress sx={{width:"25px !important", height:"25px !important", color:"#FFF"}}/> : "Vote"}
         </Button>
         <Button variant="contained" color = "error" onClick={handleClose}>Cancel</Button>
+        </form>
         </CardContent>
-      </Card>
-      </Modal>
-    </div>
+    </Card>
+    
   );
 }
