@@ -5,9 +5,8 @@ import { Button, Card, CardContent, CircularProgress, FormControlLabel, Radio, R
 import { Snackbar } from '@mui/material';
 
 
-export function ConfirmPollOtp({setRenderedComponent, setOpen, vote}) {
+export function ConfirmPollOtp({setRenderedComponent, setOpen, vote, setErrMsg}) {
   const [loading, setLoading] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
   const [otp, setOtp] = useState('');
   
   const handleClose= () => setOpen(false);

@@ -22,7 +22,7 @@ const Poll = () => {
             setPolls(response.data.results)
             setTotalPages(response.data.count);
           } catch (error) {
-            setErrMsg('An error occurred while editing employee.');
+            setErrMsg('An error occurred while get polls.');
         }
         setLoading(false)
       }

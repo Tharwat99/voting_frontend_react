@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useState }  from 'react';
 import axios from 'axios';
 import Modal from '@mui/material/Modal';
 import { Button, Card, CardContent, CircularProgress, FormControlLabel, Radio, RadioGroup, TextField, Typography } from '@mui/material';
@@ -19,9 +19,8 @@ const style = {
   
   };
 
-export function PollDetails({poll, setRenderedComponent, setOpen, setVote}) {
+export function PollDetails({poll, setRenderedComponent, setOpen, setVote, setErrMsg}) {
   const [loading, setLoading] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
   const [radioValue, setRadioValue] = useState('');
   const [voterEmail, setVoterEmail] = useState('');
   const handleClose= () => setOpen(false);
@@ -40,15 +39,20 @@ export function PollDetails({poll, setRenderedComponent, setOpen, setVote}) {
       catch (error) {
         if (error.response.status === 400){
           let error_msg = '';
-          for (let key in error?.response?.data) {
-            if (error?.response?.data?.hasOwnProperty(key)) {
-              error_msg += key + ":";
-              error_msg += error.response.data[key][0]
+          if (error?.response?.data?.hasOwnProperty('non_field_errors')){
+            setErrMsg("Sorry, you voted this poll before.");
+          }else{
+            for (let key in error?.response?.data) {
+              if (error?.response?.data?.hasOwnProperty(key)) {
+                error_msg += key + ":";
+                error_msg += error.response.data[key][0]
+              }
             }
+            setErrMsg(error_msg);
           }
-          setErrMsg(error_msg);
+          
         }else{
-          setErrMsg('An error occurred while editing employee.');
+          setErrMsg('An error occurred while voting poll.');
         }
         
     }
