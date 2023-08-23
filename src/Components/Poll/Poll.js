@@ -5,6 +5,7 @@ import { useDebounce } from "use-lodash-debounce";
 import PollElement from './pollElement';
 
 const Poll = () => {  
+    const pageSize = 10;
     const [loading, setLoading] = useState(false);
     const [errMsg, setErrMsg] = useState("");
     const [polls, setPolls] = useState([]);  
@@ -36,7 +37,7 @@ const Poll = () => {
     return (
         <div >
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
-            <FormControl sx={{ marginRight: 10 }}>
+            <FormControl sx={{ marginRight: 10 }} size = 'small'> 
               <Select
                 value={searchField}
                 onChange={(e) => {
@@ -49,11 +50,12 @@ const Poll = () => {
                 <MenuItem value="choice_text">Choice</MenuItem>
               </Select>
             </FormControl>
-          <TextField
+          <TextField 
             label="Search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             sx={{ marginRight: 10 }}
+            size = 'small'
           />
          </div>
             {polls.map((poll) => (
@@ -66,7 +68,7 @@ const Poll = () => {
             message={errMsg}
             />
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
-              <Pagination count={Math.ceil(totalPages / 2)} page={currentPage} onChange={handlePageChange} />
+              <Pagination count={Math.ceil(totalPages / pageSize)} page={currentPage} onChange={handlePageChange} />
             </div>
             {loading && <CircularProgress
             sx={{ position:"absolute", top :"50%", left:"50%", transform:"translate(-50%,-50%)"}} />
