@@ -36,7 +36,7 @@ const Poll = () => {
       };
     return (
         <div>
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20,}}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20}}>
             <FormControl sx={{ marginRight: 10 }} size = 'small'> 
               <Select
                 value={searchField}
@@ -55,22 +55,32 @@ const Poll = () => {
               label="Search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              sx={{ marginRight: 10 }}
               size = 'small'
+              
             />
           </div>
-            {polls.map((poll) => (
+          {polls.length > 0 ? (
+            polls.map((poll) => (
               <PollElement key={poll.id} poll={poll} />
-            ))}
+            ))
+          ) : (
+            <p style={{textAlign: 'center'}}>No polls to show.</p>
+          )}
+            
             <Snackbar
             open={!!errMsg}
             autoHideDuration={3000}
             onClose={() => {setErrMsg("")}}
             message={errMsg}
             />
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
-              <Pagination count={Math.ceil(totalPages / pageSize)} page={currentPage} onChange={handlePageChange} />
-            </div>
+            
+            {polls.length > 0 ? (
+           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
+           <Pagination count={Math.ceil(totalPages / pageSize)} page={currentPage} onChange={handlePageChange} />
+         </div>
+          ) : (
+            <></>
+          )}
             {loading && <CircularProgress
             sx={{ position:"absolute", top :"50%", left:"50%", transform:"translate(-50%,-50%)"}} />
             }

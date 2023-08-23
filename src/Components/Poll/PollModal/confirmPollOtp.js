@@ -13,7 +13,7 @@ export function ConfirmPollOtp({setRenderedComponent, setOpen, vote, setErrMsg})
     e.preventDefault()
     setLoading(true)
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/voter/validate-vote-otp/${vote.id}/`, {
+        await axios.put(`http://127.0.0.1:8000/voter/validate-vote-otp/${vote.id}/`, {
           otp: otp
         });
         setRenderedComponent('details');
