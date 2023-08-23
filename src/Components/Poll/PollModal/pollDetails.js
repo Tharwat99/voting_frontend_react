@@ -10,6 +10,10 @@ export function PollDetails({poll, setRenderedComponent, setOpen, setVote, setEr
   
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!voterEmail.includes('@')) {
+      setErrMsg('Please enter a valid email address');
+      return;
+    }
     setLoading(true)
     try {
         const vot_data = {

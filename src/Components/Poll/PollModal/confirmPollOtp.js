@@ -7,12 +7,23 @@ export function ConfirmPollOtp({setRenderedComponent, setOpen, vote, setErrMsg})
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState('');
   
-  const handleClose= () => setOpen(false);
+  const handleClose= () => {setRenderedComponent('details');setOpen(false);}
   
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!otp.isdigit !== 6) {
+      setErrMsg('OTP is an number');
+      return;
+    }
+    if (otp.length !== 6) {
+      setErrMsg('OTP length is 6');
+      return;
+    }
+    
     setLoading(true)
+    
     try {
+        
         await axios.put(`http://127.0.0.1:8000/voter/validate-vote-otp/${vote.id}/`, {
           otp: otp
         });
@@ -24,7 +35,6 @@ export function ConfirmPollOtp({setRenderedComponent, setOpen, vote, setErrMsg})
           let error_msg = '';
           for (let key in error.response.data) {
             if (error.response.data.hasOwnProperty(key)) {
-              error_msg += key + ":";
               error_msg += error.response.data[key][0]
             }
           }
@@ -43,7 +53,7 @@ export function ConfirmPollOtp({setRenderedComponent, setOpen, vote, setErrMsg})
             <h2 style = {{marginTop:'0', textAlign:'center'}} >Confirm Vote</h2>
             <TextField size = "small"  id="voter" label="Type received OTP" variant="outlined" sx={{width:"100%", margin:"8px 0"}} value={otp} onChange={(e)=>{
               setOtp(e.target.value)
-            }}/>
+            }} required/>
             <div style={{ textAlign: 'center', display: 'flex', flexWrap:'wrap', justifyContent:"space-between"}}>
           
               <Button variant="contained" type = 'submit' sx={{marginRight:"1rem"}} disabled={loading}>

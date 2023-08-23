@@ -7,7 +7,7 @@ import { Snackbar } from '@mui/material';
 export function PollModal({poll, open, setOpen}) {
   const [errMsg, setErrMsg] = useState("");
   const [renderedComponent, setRenderedComponent] = useState('details');
-  const handleClose= () => setOpen(false);
+  const handleClose= () => {setRenderedComponent('details');setOpen(false)};
   
   const [vote, setVote] = useState({});
   
