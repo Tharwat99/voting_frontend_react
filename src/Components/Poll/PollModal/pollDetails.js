@@ -1,39 +1,24 @@
 import React, { useState }  from 'react';
 import axios from 'axios';
-import Modal from '@mui/material/Modal';
 import { Button, Card, CardContent, CircularProgress, FormControlLabel, Radio, RadioGroup, TextField, Typography } from '@mui/material';
-import { Snackbar } from '@mui/material';
-
-const style = {
-    position: 'absolute',
-    top: '10vh',
-    left: '50%',
-    transform: 'translate(-50%, 0)',
-    minWidth: 400,
-    overflow: 'auto',
-    bgcolor: '#fff',
-    boxShadow: 24,
-    borderRadius: '15px',
-    p:4,
-    outline:0
-  
-  };
 
 export function PollDetails({poll, setRenderedComponent, setOpen, setVote, setErrMsg}) {
   const [loading, setLoading] = useState(false);
   const [radioValue, setRadioValue] = useState('');
   const [voterEmail, setVoterEmail] = useState('');
-  const handleClose= () => setOpen(false);
-  
+  const handleClose= () => setOpen(false);  
   
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     try {
-        const response = await axios.post(`http://127.0.0.1:8000/voter/create-vote/`, 
-        {voter: voterEmail, poll: poll.id, choice:radioValue.id});
+        const vot_data = {
+          voter: voterEmail,
+          poll: poll.id,
+          choice:radioValue.id
+        }
+        const response = await axios.post(`http://127.0.0.1:8000/voter/create-vote/`, vot_data);
         setVote(response.data)
-        console.log('Done')
         setRenderedComponent('otp')
       }
       catch (error) {
@@ -64,7 +49,6 @@ export function PollDetails({poll, setRenderedComponent, setOpen, setVote, setEr
             <Typography variant="h6" component="div" sx={{marginBottom:"0.3rem" }}>
             {poll.title}
             </Typography>
-            
             <div style={{ textAlign: 'center', marginBottom: 5}}>
             <Typography variant="body3" color="text.secondary">
                 Expiry Date: {poll.expiry_date}
