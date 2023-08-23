@@ -50,26 +50,31 @@ export function PollDetails({poll, setRenderedComponent, setOpen, setVote, setEr
             {poll.title}
             </Typography>
             <form onSubmit={(e)=>handleSubmit(e)} >    
-            <TextField size = "small"  id="voter" label="Email" variant="outlined" sx={{width:"100%", margin:"8px 0"}}
-            value={voterEmail} onChange={(e)=>{
-              setVoterEmail(e.target.value)
-            }}
-            />
-            <RadioGroup>
-            {poll.choices.map((choice) => (
-            <FormControlLabel
-                key={choice.id}
-                value={choice.choice_text}
-                label={choice.choice_text}
-                control={<Radio disabled={poll.is_expired} checked = {radioValue === choice} onChange={() => {setRadioValue(choice)}}/>}
-            />
-            ))}
-        </RadioGroup>
-        <Button variant="contained" type = 'submit' sx={{marginRight:"1rem"}} disabled={loading}>
-        {loading ? <CircularProgress sx={{width:"25px !important", height:"25px !important", color:"#FFF"}}/> : "Vote"}
-        </Button>
-        <Button variant="contained" color = "error" onClick={handleClose}>Cancel</Button>
-        </form>
+              <TextField size = "small"  id="voter" label="Email" variant="outlined" sx={{width:"100%", margin:"8px 0"}}
+              value={voterEmail} onChange={(e)=>{
+                setVoterEmail(e.target.value)
+              }}
+              required
+              />
+              <RadioGroup sx = {{marginBottom:"5px"}}>
+              {poll.choices.map((choice) => (
+              <FormControlLabel
+                  key={choice.id}
+                  value={choice.choice_text}
+                  label={choice.choice_text}
+                  control={<Radio disabled={poll.is_expired} checked = {radioValue === choice} onChange={() => {setRadioValue(choice)}}/>}
+                  required
+              />
+              ))}
+            </RadioGroup>
+          <div style={{ textAlign: 'center', display: 'flex', flexWrap:'wrap', justifyContent:"space-between"}}>
+            
+            <Button variant="contained" type = 'submit' sx={{marginRight:"1rem"}} disabled={loading}>
+            {loading ? <CircularProgress sx={{width:"25px !important", height:"25px !important", color:"#FFF"}}/> : "Vote"}
+            </Button>
+            <Button variant="contained" color = "error" onClick={handleClose}>Cancel</Button>
+          </div>
+          </form>
         </CardContent>
     </Card>
     

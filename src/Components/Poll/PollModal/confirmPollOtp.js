@@ -1,8 +1,6 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useState }  from 'react';
 import axios from 'axios';
-import Modal from '@mui/material/Modal';
-import { Button, Card, CardContent, CircularProgress, FormControlLabel, Radio, RadioGroup, TextField, Typography } from '@mui/material';
-import { Snackbar } from '@mui/material';
+import { Button, Card, CardContent, CircularProgress, TextField } from '@mui/material';
 
 
 export function ConfirmPollOtp({setRenderedComponent, setOpen, vote, setErrMsg}) {
@@ -42,15 +40,17 @@ export function ConfirmPollOtp({setRenderedComponent, setOpen, vote, setErrMsg})
     <Card sx={{ maxWidth: 500, margin: '0 auto', marginTop: 5 }}>
         <CardContent>
           <form onSubmit={(e)=>handleSubmit(e)} >    
-        
+            <h2 style = {{marginTop:'0', textAlign:'center'}} >Confirm Vote</h2>
             <TextField size = "small"  id="voter" label="Type received OTP" variant="outlined" sx={{width:"100%", margin:"8px 0"}} value={otp} onChange={(e)=>{
               setOtp(e.target.value)
             }}/>
-            
-            <Button variant="contained" type = 'submit' sx={{marginRight:"1rem"}} disabled={loading}>
-            {loading ? <CircularProgress sx={{width:"25px !important", height:"25px !important", color:"#FFF"}}/> : "Confirm"}
-            </Button>
-            <Button variant="contained" color = "error" onClick={handleClose}>Cancel</Button>
+            <div style={{ textAlign: 'center', display: 'flex', flexWrap:'wrap', justifyContent:"space-between"}}>
+          
+              <Button variant="contained" type = 'submit' sx={{marginRight:"1rem"}} disabled={loading}>
+              {loading ? <CircularProgress sx={{width:"25px !important", height:"25px !important", color:"#FFF"}}/> : "Confirm"}
+              </Button>
+              <Button variant="contained" color = "error" onClick={handleClose}>Cancel</Button>
+            </div>
           </form>
         </CardContent>
     </Card>

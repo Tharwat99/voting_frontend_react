@@ -35,8 +35,8 @@ const Poll = () => {
         getPolls(value)
       };
     return (
-        <div >
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20,}}>
             <FormControl sx={{ marginRight: 10 }} size = 'small'> 
               <Select
                 value={searchField}
@@ -51,14 +51,14 @@ const Poll = () => {
                 <MenuItem value="description">Description</MenuItem>
               </Select>
             </FormControl>
-          <TextField 
-            label="Search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            sx={{ marginRight: 10 }}
-            size = 'small'
-          />
-         </div>
+            <TextField 
+              label="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              sx={{ marginRight: 10 }}
+              size = 'small'
+            />
+          </div>
             {polls.map((poll) => (
               <PollElement key={poll.id} poll={poll} />
             ))}
