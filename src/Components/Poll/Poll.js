@@ -48,6 +48,7 @@ const Poll = () => {
               >
                 <MenuItem value="title">Title</MenuItem>
                 <MenuItem value="choice_text">Choice</MenuItem>
+                <MenuItem value="description">Description</MenuItem>
               </Select>
             </FormControl>
           <TextField 

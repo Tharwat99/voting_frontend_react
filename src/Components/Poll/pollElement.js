@@ -9,7 +9,7 @@ const PollElement = ({ poll }) => {
     
     return (
       <div onClick={handleOpen}  style={{opacity: poll.is_expired ? "0.7" : "1"}} >
-      <Card sx={{ maxWidth: 400, margin: '0 auto', marginTop: 5 }}>
+      <Card sx={{ maxWidth: 500, margin: '0 auto', marginTop: 5 }}>
         <CardContent>
           <Typography variant="h6" component="div" sx={{marginBottom:"0.3rem" }}>
             {poll.title}

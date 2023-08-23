@@ -49,16 +49,7 @@ export function PollDetails({poll, setRenderedComponent, setOpen, setVote, setEr
             <Typography variant="h6" component="div" sx={{marginBottom:"0.3rem" }}>
             {poll.title}
             </Typography>
-            <div style={{ textAlign: 'center', marginBottom: 5}}>
-            <Typography variant="body3" color="text.secondary">
-                Expiry Date: {poll.expiry_date}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" >
-            Status: {poll.is_expired ? 'Expired' : 'Active'}
-            </Typography>
-            </div>
             <form onSubmit={(e)=>handleSubmit(e)} >    
-        
             <TextField size = "small"  id="voter" label="Email" variant="outlined" sx={{width:"100%", margin:"8px 0"}}
             value={voterEmail} onChange={(e)=>{
               setVoterEmail(e.target.value)
