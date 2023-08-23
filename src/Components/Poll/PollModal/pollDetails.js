@@ -60,17 +60,25 @@ export function PollDetails({poll, setRenderedComponent, setOpen, setVote, setEr
               }}
               required
               />
-              <RadioGroup sx = {{marginBottom:"5px"}}>
-              {poll.choices.map((choice) => (
-              <FormControlLabel
-                  key={choice.id}
-                  value={choice.choice_text}
-                  label={choice.choice_text}
-                  control={<Radio disabled={poll.is_expired} checked = {radioValue === choice} onChange={() => {setRadioValue(choice)}}/>}
-                  required
-              />
-              ))}
-            </RadioGroup>
+              <RadioGroup sx={{ marginBottom: "5px" }}>
+            {poll.choices.map((choice) => (
+            <FormControlLabel
+              key={choice.id}
+              value={choice.choice_text}
+              label={`${choice.choice_text} (${choice.voting_count})`}
+              control={
+                <Radio
+                  disabled={poll.is_expired}
+                  checked={radioValue === choice}
+                  onChange={() => {
+                    setRadioValue(choice);
+              }}
+            />
+              }
+              required
+            />
+          ))}
+          </RadioGroup>
           <div style={{ textAlign: 'center', display: 'flex', flexWrap:'wrap', justifyContent:"space-between"}}>
             
             <Button variant="contained" type = 'submit' sx={{marginRight:"1rem"}} disabled={loading}>
